@@ -6,6 +6,16 @@ import json
 import sys
 
 file_path = "dat.json"
+characters= ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
+            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9','!', '#', '$', '%', '&', '(', ')', '*', '+',
+            'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 
+            'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z',
+            'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M',
+            'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z',
+            '0', '1', '2', '3', '4', '5', '6', '7', '8', '9','!', '#', '$', '%', '&', '(', ')', '*', '+']
 
 # ======== Check Master Password ========#
 
@@ -21,7 +31,6 @@ def check_password():
 
 pass_window = Tk()
 pass_window.title("Password Prompt")
-pass_window.resizable(False, False)
 pass_window.config(padx=50, pady=60)
 
 def on_close():
@@ -41,6 +50,24 @@ master_password_button.grid(row=1, column=2)
 master_password_entry.bind("<Return>", lambda event: check_password())
 
 pass_window.mainloop()
+
+# ======== Password Encryption ========#
+def reverse(string):
+    string = string[::-1]
+    return string
+
+def cypher(text, key, choice):  # choice 0 for encrypt, 1 for decrypt 
+    if choice == "0":
+        key*= -1            # set your key between 0 to 70
+    output=""
+    x= len(text)
+    for i in range(0, x):
+        if text[i] in characters:
+            idx= characters.index(text[i])
+            output+=characters[idx+key]
+        else:
+            output+= text[i]
+    return output
 
 # ======== Password Generator ========#
 
@@ -81,8 +108,10 @@ def search_password():
             if website_name in data:
                 found_email = data[website_name]["Email"]
                 found_password = data[website_name]["Password"]
+                decrypted_password = cypher(found_password, 10, "0")
+                rev= reverse(decrypted_password)
                 messagebox.showinfo(
-                    title=website_name, message=f"Email: {found_email}\nPassword: {found_password}")
+                    title=website_name, message=f"Email: {found_email}\nPassword: {rev}")
             else:
                 messagebox.showinfo(
                     title="Error", message=f"No details for {website_name} exists.")
@@ -94,10 +123,11 @@ def add_to_file():
     website = website_detail_input.get()
     email = email_input.get()
     password = password_input.get()
+    encrypted_password = cypher(reverse(password), 10, "1")
     content_to_add = {
         website: {
             "Email": email,
-            "Password": password,
+            "Password": encrypted_password,
         }
     }
     if len(website) == 0 or len(email) == 0 or len(password) == 0:
@@ -145,7 +175,7 @@ email_label= Label(text="Email/Username:", font=("Arial", 10))
 email_label.grid(row=2,column=0)
 email_input= Entry(width=50, font=("Arial", 10))
 email_input.grid(row=2,column=1, padx=10, pady=5, columnspan=2)
-email_input.insert(0, "aviralmehrotra@gmail.com")
+email_input.insert(0, "yourEmailGoesHere@gmail.com")
 
 password_label= Label(text="Password:", font=("Arial", 10))
 password_label.grid(row=3,column=0)

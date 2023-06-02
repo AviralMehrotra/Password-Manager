@@ -8,7 +8,9 @@ This is a simple password manager program implemented using Python and Tkinter G
 
 - **Password Prompt:** When the program starts, it displays a password prompt window where users can enter the master password. If the entered password matches the master password, the password prompt window closes, and the password manager window opens. Otherwise, an error message is displayed, and the program exits.
 
-- **Search Password:** Users can search for a stored password by entering the website name in the corresponding input field and clicking the "Search" button. If the website is found in the stored data, the associated email and password are displayed in a message box. Otherwise, an error message is shown.
+- **Password Encryption:** The program uses a simple encryption algorithm (Caesar cipher) to encrypt the passwords before storing them. The encrypted passwords are then saved in a JSON file.
+
+- **Search Password:** Users can search for a stored password by entering the website name in the corresponding input field and clicking the "Search" button. If the website is found in the stored data, the associated email and decrypted password are displayed in a message box. Otherwise, an error message is shown.
 
 - **Generate Password:** The program provides a password generator feature. Clicking the "Generate" button generates a random password consisting of letters, numbers, and symbols. The generated password is displayed in the password input field and automatically copied to the clipboard for easy use.
 
